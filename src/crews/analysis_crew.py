@@ -14,6 +14,7 @@ from src.tools.fundamental_tools import FundamentalAnalysisTool
 from src.tools.technical_tools import TechnicalAnalysisTool
 from src.tools.financial_tools import FinancialCalculatorTool
 from src.utils.http_utils import with_retry
+from src.config.model_config import get_manager_llm, get_planning_llm
 
 # 设置日志
 logging.basicConfig(level=logging.INFO)
@@ -455,12 +456,12 @@ class AnalysisCrew:
             agents=self.agents,  # 所有分析师智能体
             tasks=self.tasks,    # 所有分析任务
             process=Process.hierarchical,  # 层次化协作，智能体自主讨论
-            manager_llm='gpt-4o-mini',  # 管理者LLM，用于协调层次化流程
+            manager_llm=get_manager_llm(),  # 管理者LLM，用于协调层次化流程
             verbose=True,
             memory=True,  # 启用团队记忆，保留分析过程
             cache=True,   # 启用缓存
             planning=True,  # 启用规划功能
-            planning_llm='gpt-4o-mini',
+            planning_llm=get_planning_llm(),
             share_crew=True,  # 允许智能体间共享信息
         )
 

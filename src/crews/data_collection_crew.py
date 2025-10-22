@@ -18,6 +18,7 @@ from datetime import datetime
 
 # 导入HTTP工具
 from src.utils.http_utils import with_retry, create_openai_client
+from src.config.model_config import get_manager_llm, get_planning_llm
 
 # 导入自定义工具
 CUSTOM_TOOLS_AVAILABLE = False
