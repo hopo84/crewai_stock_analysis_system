@@ -195,13 +195,15 @@ class ModelConfigManager:
         """验证模型配置"""
         try:
             api_key = self.config.get('api_key')
-            if not api_key:
-                logger.error(f"{self.provider.value} API密钥未配置")
+            if not api_key or api_key.startswith('your-'):
+                logger.error(f"{self.provider.value} API密钥未配置或为占位符")
                 return False
 
-            # 验证API密钥格式
-            if not api_key.startswith('sk-'):
-                logger.warning(f"{self.provider.value} API密钥格式可能不正确")
+            # 验证API密钥格式（根据提供商不同）
+            if self.provider == ModelProvider.OPENAI and not api_key.startswith('sk-'):
+                logger.warning(f"{self.provider.value} API密钥格式可能不正确，OpenAI密钥通常以'sk-'开头")
+            elif self.provider == ModelProvider.DEEPSEEK and not api_key.startswith('sk-'):
+                logger.warning(f"{self.provider.value} API密钥格式可能不正确，DeepSeek密钥通常以'sk-'开头")
 
             # 验证基础URL
             base_url = self.config.get('base_url')
