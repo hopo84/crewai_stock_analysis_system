@@ -26,7 +26,15 @@ logger = logging.getLogger(__name__)
 
 def check_environment():
     """检查环境配置"""
-    required_vars = ['OPENAI_API_KEY']
+    # 获取模型提供商
+    model_provider = os.getenv('MODEL_PROVIDER', 'openai').lower()
+
+    # 根据模型提供商检查相应的API密钥
+    if model_provider == 'deepseek':
+        required_vars = ['DEEPSEEK_API_KEY']
+    else:
+        required_vars = ['OPENAI_API_KEY']
+
     missing_vars = []
 
     for var in required_vars:
@@ -35,9 +43,11 @@ def check_environment():
 
     if missing_vars:
         print(f"错误：缺少必要的环境变量: {', '.join(missing_vars)}")
-        print("请在.env文件中设置这些变量")
+        print(f"当前模型提供商: {model_provider}")
+        print("请在.env文件中设置相应的API密钥")
         return False
 
+    print(f"✅ 环境配置检查通过，使用模型提供商: {model_provider}")
     return True
 
 

@@ -141,7 +141,7 @@ class ModelConfigManager:
 
         # 构建模型配置
         model_config = {
-            'model': model_name,
+            'model': f"deepseek/{model_name}",
             'api_key': self.config['api_key'],
             'base_url': self.config['base_url'],
             'max_tokens': self.config['max_tokens'],
