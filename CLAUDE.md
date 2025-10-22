@@ -4,67 +4,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **documentation and educational repository** about CrewAI, not an implemented project. It contains comprehensive Chinese language documentation about CrewAI framework concepts and implementation patterns.
+This is a **CrewAI股票分析系统** - a fully functional multi-agent stock analysis system built with CrewAI framework. The project features comprehensive documentation and modular architecture supporting multiple AI model providers.
 
 ## Current State
 
-**Missing Implementation Files:**
-- No Python source code files
-- No package.json, requirements.txt, or pyproject.toml
-- No configuration files (agents.yaml, tasks.yaml)
-- No main entry point or build scripts
+**Implementation Status:**
+- ✅ Complete source code structure in `src/` directory
+- ✅ Multi-model support (OpenAI + DeepSeek integration)
+- ✅ Comprehensive documentation system in `docs/`
+- ✅ Configuration files and environment setup
+- ✅ Demo scripts and usage examples
 
-**Available Files:**
-- `CrewAI_note.txt` - 418-line Chinese tutorial on CrewAI concepts
-- `.claude/settings.local.json` - Claude Code permissions configuration
+**Key Files:**
+- `demo_deepseek.py` - DeepSeek model integration demonstration
+- `src/` - Complete source code implementation
+- `docs/` - Comprehensive user and developer documentation
+- `.env.example` - Extended environment configuration with multi-model support
+- `requirements.txt` - Project dependencies
+- `CLAUDE.md` - This guidance file
 
-## Technology Stack (Referenced in Documentation)
+## Technology Stack
 
 - **Framework**: CrewAI - Python-based multi-agent AI framework
-- **Language**: Python
-- **AI Integration**: OpenAI API for LLM capabilities
+- **Language**: Python 3.9+
+- **AI Models**:
+  - OpenAI API (GPT-4, GPT-3.5-turbo)
+  - DeepSeek API (deepseek-chat, deepseek-coder)
+- **Data Sources**: AKShare for Chinese market data, Yahoo Finance for global markets
 - **Tools Package**: crewai[tools] with SerperDevTool, ScrapeWebsiteTool, etc.
+- **Documentation**: Comprehensive Chinese language documentation
 
 ## Architecture Patterns
 
-The documentation describes CrewAI's core concepts:
+The system implements CrewAI's core concepts:
 
 1. **Agents**: Specialized AI roles with specific goals and backstories
+   - 市场研究分析师 (Market Research Analyst)
+   - 财务分析师 (Financial Analyst)
+   - 技术分析师 (Technical Analyst)
+   - 风险评估师 (Risk Assessment Specialist)
+   - 投资顾问 (Investment Advisor)
+
 2. **Tasks**: Well-defined work units with clear expected outputs
 3. **Crews**: Teams of agents working collaboratively
-4. **Flows**: Event-driven workflows with conditional logic
+4. **Model Integration**: Dynamic model switching between providers
 
-## To Make This a Functional CrewAI Project
+## Key Features
 
-The documentation suggests implementing a stock analysis system. To make this functional:
+1. **Multi-Model Support**:
+   - Switch between OpenAI and DeepSeek models via environment configuration
+   - Cost optimization through model selection
+   - Enhanced Chinese language support with DeepSeek
 
-1. **Basic Structure Setup**:
-   ```bash
-   mkdir src config
-   ```
+2. **Comprehensive Analysis**:
+   - Market research and data collection
+   - Financial statement analysis
+   - Technical indicator calculation
+   - Risk assessment and management
+   - Investment recommendation generation
 
-2. **Dependencies**: Create `requirements.txt` with:
-   ```
-   crewai
-   crewai[tools]
-   openai
-   python-dotenv
-   ```
+3. **Documentation System**:
+   - Quick start guides
+   - User manuals
+   - Developer documentation
+   - API references
 
-3. **Configuration Files**: Create `config/agents.yaml` and `config/tasks.yaml`
-
-4. **Main Entry Point**: Create `src/main.py` with crew setup and execution
-
-5. **Environment Setup**: Create `.env` file for API keys
-
-## Development Guidelines (From Documentation)
+## Development Guidelines
 
 - **Agent Design**: Single responsibility, clear goals, rich backstories
 - **Task Decomposition**: Atomic tasks with clear dependencies
 - **Tool Selection**: Role-appropriate tool assignment
 - **Error Handling**: Retry mechanisms and monitoring
 - **Performance**: Optimize agent count and use parallel processing
+- **Model Selection**: Choose appropriate model based on task complexity and cost requirements
+- **Documentation**: Maintain comprehensive Chinese documentation for Chinese users
 
-## Notes
+## Usage Examples
 
-This repository appears to be intended as a learning resource or starting point for CrewAI development. The extensive Chinese documentation covers theoretical concepts and implementation patterns but lacks the actual Python implementation files needed to run a CrewAI application.
+### Quick Start
+```bash
+# Run with OpenAI models
+python demo_deepseek.py
+
+# Switch to DeepSeek models
+# Set MODEL_PROVIDER=deepseek in .env
+python demo_deepseek.py
+```
+
+### Model Configuration
+```env
+# OpenAI Configuration
+MODEL_PROVIDER=openai
+OPENAI_API_KEY=your-key
+OPENAI_CHAT_MODEL=gpt-4o-mini
+
+# DeepSeek Configuration
+MODEL_PROVIDER=deepseek
+DEEPSEEK_API_KEY=your-key
+DEEPSEEK_CHAT_MODEL=deepseek-chat
+```
+
+## Recent Updates
+
+**Latest Features (impl-integrate-model branch):**
+- ✅ DeepSeek model integration with demo script
+- ✅ Multi-provider model configuration system
+- ✅ Complete documentation restructure
+- ✅ Enhanced .env configuration options
+- ✅ Improved .gitignore for development workflows

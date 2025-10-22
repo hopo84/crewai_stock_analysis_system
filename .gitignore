@@ -47,8 +47,20 @@ Thumbs.db
 
 # Local development settings
 local_settings.py
-db.sqlite3 
+db.sqlite3
 
+# Claude Code and development
 .claude/*
 worktrees/*
 log.txt
+*.log
+
+# Analysis outputs (optional - remove if you want to track reports)
+*_report.md
+final_investment_analysis.md
+
+# Temporary files
+*.tmp
+*.temp
+cache/
+.cache/
