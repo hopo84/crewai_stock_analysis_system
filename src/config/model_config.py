@@ -95,16 +95,16 @@ class ModelConfigManager:
                 return self._get_model_name(model_type)
 
             if self.provider == ModelProvider.DEEPSEEK:
-                return self._create_deepseek_llm(model_type, **kwargs)
+                return self._create_deepseek_llm(model_type, LLM, **kwargs)
             else:
-                return self._create_openai_llm(model_type, **kwargs)
+                return self._create_openai_llm(model_type, LLM, **kwargs)
 
         except Exception as e:
             logger.error(f"创建LLM实例失败: {str(e)}")
             # 降级到返回模型名称字符串
             return self._get_model_name(model_type)
 
-    def _create_openai_llm(self, model_type: ModelType, **kwargs):
+    def _create_openai_llm(self, model_type: ModelType, LLM, **kwargs):
         """创建OpenAI LLM实例"""
         # 根据模型类型选择模型名称
         if model_type == ModelType.MANAGER:
@@ -127,7 +127,7 @@ class ModelConfigManager:
         logger.info(f"创建OpenAI LLM: {model_name}")
         return LLM(**model_config)
 
-    def _create_deepseek_llm(self, model_type: ModelType, **kwargs):
+    def _create_deepseek_llm(self, model_type: ModelType, LLM, **kwargs):
         """创建DeepSeek LLM实例"""
         # 根据模型类型选择模型名称
         if model_type == ModelType.CODER:
@@ -236,40 +236,52 @@ class ModelConfigManager:
         }
 
 
-# 全局模型配置管理器实例
-model_config_manager = ModelConfigManager()
+# 全局模型配置管理器实例 - 延迟初始化
+_model_config_manager = None
+
+
+def _get_model_config_manager():
+    """获取模型配置管理器实例，支持延迟初始化"""
+    global _model_config_manager
+    if _model_config_manager is None:
+        _model_config_manager = ModelConfigManager()
+    return _model_config_manager
 
 
 def get_manager_llm(**kwargs):
     """便捷函数：获取管理者LLM"""
-    return model_config_manager.get_manager_llm(**kwargs)
+    return _get_model_config_manager().get_manager_llm(**kwargs)
 
 
 def get_planning_llm(**kwargs):
     """便捷函数：获取规划LLM"""
-    return model_config_manager.get_planning_llm(**kwargs)
+    return _get_model_config_manager().get_planning_llm(**kwargs)
 
 
 def get_chat_llm(**kwargs):
     """便捷函数：获取聊天LLM"""
-    return model_config_manager.get_chat_llm(**kwargs)
+    return _get_model_config_manager().get_chat_llm(**kwargs)
 
 
 def get_coder_llm(**kwargs):
     """便捷函数：获取代码LLM"""
-    return model_config_manager.get_coder_llm(**kwargs)
+    return _get_model_config_manager().get_coder_llm(**kwargs)
 
 
 def validate_model_config() -> bool:
     """便捷函数：验证模型配置"""
-    return model_config_manager.validate_config()
+    return _get_model_config_manager().validate_config()
 
 
 def get_model_provider() -> str:
     """便捷函数：获取当前模型提供商"""
-    return model_config_manager.get_current_provider()
+    return _get_model_config_manager().get_current_provider()
 
 
 def get_model_info() -> Dict[str, Any]:
     """便捷函数：获取模型信息"""
-    return model_config_manager.get_model_info()
+    return _get_model_config_manager().get_model_info()
+
+
+# For backward compatibility
+model_config_manager = _get_model_config_manager
