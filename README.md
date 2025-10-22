@@ -14,8 +14,10 @@
 
 ### 🛠️ 技术亮点
 - **多 Agent 协作**: 9 个专业化 Agent 分工协作
+- **多模型支持**: 支持 OpenAI 和 DeepSeek 模型提供商切换
 - **双重架构模式**: Crews 模式（团队协作）+ Flows 模式（流程控制）
 - **智能数据源**: 集成 AkShare、OpenAI、Serper 等数据源
+- **成本优化**: DeepSeek 模型提供更低成本的中文优化方案
 - **缓存机制**: 智能缓存提高分析效率
 - **错误处理**: 完善的异常处理和重试机制
 - **扩展性**: 模块化设计，易于扩展新功能
@@ -506,9 +508,20 @@ pip install akshare
 创建 `.env` 文件：
 
 ```bash
-# OpenAI 配置
+# 模型提供商选择（openai 或 deepseek）
+MODEL_PROVIDER=openai
+
+# OpenAI API配置（当MODEL_PROVIDER=openai时必需）
 OPENAI_API_KEY=your-openai-api-key-here
-OPENAI_MODEL_NAME=gpt-4o
+OPENAI_CHAT_MODEL=gpt-4o-mini
+OPENAI_MANAGER_MODEL=gpt-4o-mini
+OPENAI_PLANNING_MODEL=gpt-4o-mini
+
+# DeepSeek API配置（当MODEL_PROVIDER=deepseek时必需）
+DEEPSEEK_API_KEY=your-deepseek-api-key-here
+DEEPSEEK_CHAT_MODEL=deepseek-chat
+DEEPSEEK_CODER_MODEL=deepseek-coder
+DEEPSEEK_MANAGER_MODEL=deepseek-chat
 
 # Serper API (可选，用于网络搜索)
 SERPER_API_KEY=your-serper-api-key-here
@@ -541,6 +554,9 @@ python main.py single --company "紫光股份" --ticker "000938"
 
 # 不使用缓存
 python main.py single --company "贵州茅台" --ticker "600519" --no-cache
+
+# 测试模型配置（DeepSeek演示）
+python demo_deepseek.py
 ```
 
 #### 批量分析
