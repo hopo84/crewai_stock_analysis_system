@@ -18,7 +18,7 @@ from datetime import datetime
 
 # 导入HTTP工具
 from src.utils.http_utils import with_retry, create_openai_client
-from src.config.model_config import get_manager_llm, get_planning_llm
+from src.config.model_config import get_manager_llm, get_planning_llm, get_chat_llm
 
 # 导入自定义工具
 CUSTOM_TOOLS_AVAILABLE = False
@@ -209,6 +209,7 @@ class DataCollectionCrew:
                 backstory="你是一位经验丰富的市场研究员，擅长分析市场趋势和收集行业信息。请在2-3个步骤内完成任务。",
                 verbose=True,
                 tools=market_tools,
+                llm=get_chat_llm(),  # 使用配置的LLM
                 allow_delegation=False,  # 禁用委托，避免循环调用
                 max_iter=3,  # 减少迭代次数
                 memory=False,  # 禁用内存，避免复杂状态
@@ -231,6 +232,7 @@ class DataCollectionCrew:
                 backstory="你是一名经验丰富的财务分析师，擅长收集和分析上市公司的财务数据。请在2-3个步骤内完成任务。",
                 verbose=True,
                 tools=financial_tools,
+                llm=get_chat_llm(),  # 使用配置的LLM
                 allow_delegation=False,  # 禁用委托
                 max_iter=3,  # 减少迭代次数
                 memory=False,  # 禁用内存
@@ -253,6 +255,7 @@ class DataCollectionCrew:
                 backstory="你是一名专业的股票技术分析师，擅长分析股票价格走势和技术指标。请在2-3个步骤内完成任务。",
                 verbose=True,
                 tools=technical_tools,
+                llm=get_chat_llm(),  # 使用配置的LLM
                 allow_delegation=False,  # 禁用委托
                 max_iter=3,  # 减少迭代次数
                 memory=False,  # 禁用内存
@@ -270,6 +273,7 @@ class DataCollectionCrew:
                 goal=f"验证收集的{company}数据的准确性和完整性",
                 backstory="你是数据质量专家，擅长数据验证和清洗。请在1-2个步骤内完成任务。",
                 verbose=True,
+                llm=get_chat_llm(),  # 使用配置的LLM
                 allow_delegation=False,  # 禁用委托
                 max_iter=2,  # 减少迭代次数
                 memory=False,  # 禁用内存
@@ -287,6 +291,7 @@ class DataCollectionCrew:
                 goal=f"协调各智能体的{company}数据收集工作",
                 backstory="你是一位优秀的项目经理，擅长协调多个团队的工作。请在1-2个步骤内完成任务。",
                 verbose=True,
+                llm=get_chat_llm(),  # 使用配置的LLM
                 allow_delegation=False,  # 禁用委托
                 max_iter=2,  # 减少迭代次数
                 memory=False,  # 禁用内存
